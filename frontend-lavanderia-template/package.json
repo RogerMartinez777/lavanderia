@@ -1,0 +1,23 @@
+{
+  "name": "frontend-lavanderia-template",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "animejs": "^4.0.2",
+    "axios": "^1.10.0",
+    "sweetalert2": "^11.22.2",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.4",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.3",
+    "vite": "^6.3.5"
+  }
+}
