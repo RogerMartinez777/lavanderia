@@ -7,13 +7,14 @@ import os
 # 🟢 Agregá esta línea justo después de los imports:
 from app.routes import login
 from app.routes import clientes
+from app.routes import servicios
 
 load_dotenv()
 
 app = FastAPI()
 
 # Configuración CORS
-
+# Es importante que el allow_origins incluya la IP de tu PC para acceso desde otros dispositivos
 origins = [
     "http://localhost:5173",             # Para cuando lo corres en tu propia PC
     "http://192.168.100.132:5173",       # Para cuando accedes desde otros dispositivos con tu IP actual
@@ -23,17 +24,21 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    # Se recomienda ser más específico con allow_origins en producción
+    # Pero para desarrollo, "*" es común para evitar problemas de CORS.
+    allow_origins=["*"], # Permite todas las IPs y dominios para desarrollo
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"], # Permite todos los métodos (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"], # Permite todos los encabezados
 )
 
 # Leer variables del entorno
 server = os.getenv("SQL_SERVER")
 database = os.getenv("SQL_DB")
 
-# Función para conexión
+# Función para conexión (aunque ya la tienes en db.py, aquí solo la defines si la usaras directamente en main.py)
+# Si no la usas aquí, podrías considerar eliminarla de main.py para evitar duplicidad,
+# ya que db.py es el módulo encargado de la gestión de la conexión.
 def get_db_connection():
     conn = pyodbc.connect(
         f"DRIVER={{ODBC Driver 17 for SQL Server}};"
@@ -48,7 +53,8 @@ def get_db_connection():
 def root():
     return {"message": "API Lavandería funcionando correctamente"}
 
-# 🟢 Agregá esta línea al final del archivo:
+# 🟢 Incluye los routers en la aplicación FastAPI
 app.include_router(login.router)
 app.include_router(clientes.router)
+app.include_router(servicios.router)
 
