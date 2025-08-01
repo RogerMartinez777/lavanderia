@@ -1,8 +1,11 @@
 <template>
-  <div class="min-h-screen flex bg-[#1e2235] text-gray-800">
-    <aside class="w-64 bg-white shadow-xl p-6 space-y-6 rounded-tr-3xl rounded-br-3xl">
+  <!-- Contenedor principal del dashboard con el fondo degradado -->
+  <div class="min-h-screen flex text-gray-800" style="background: linear-gradient(135deg, #4b5a6c, #a7b7c5);">
+    
+    <!-- Sidebar de navegación -->
+    <aside class="w-64 bg-gray-100 shadow-xl p-6 space-y-6 rounded-tr-3xl rounded-br-3xl">
       <div class="text-center">
-        <h2 class="text-2xl font-bold text-purple-700">Lavandería Beatriz</h2>
+        <h2 class="text-2xl font-bold text-gray-800">Lavandería Beatriz</h2>
         <p class="text-sm text-gray-500">Panel de Control</p>
       </div>
       <nav class="space-y-3">
@@ -28,11 +31,113 @@
         <button class="w-full text-left px-4 py-2 rounded-lg bg-purple-100 text-purple-800 hover:bg-purple-200 transition">
           🧴 Insumos
         </button>
+
+        <!-- Botón para abrir el modal de Gestión de Servicios y Precios -->
+        <button
+          @click="showServiceConfigModal = true"
+          class="w-full text-left px-4 py-2 rounded-lg bg-green-100 text-green-800 hover:bg-green-200 transition mt-6">
+          ⚙️ Gestión Servicios y Precios
+        </button>
+
+        <!-- Botón de Cerrar Sesión con la nueva función -->
+        <button @click="logout" class="w-full text-left px-4 py-2 rounded-lg bg-red-100 text-red-800 hover:bg-red-200 transition mt-6">
+          🚪 Cerrar Sesión
+        </button>
       </nav>
     </aside>
 
-    <main class="flex-1 p-10">
-      <div class="bg-blue-100 p-6 rounded-xl shadow-md flex flex-col items-center text-center max-w-sm mx-auto mb-8 ml-10 relative">
+    <!-- Contenido principal (donde está el clima, etc.) -->
+    <main class="flex-1 p-6">
+      
+      <!-- Panel blanco para el encabezado y logo -->
+      <div class="mb-6 p-6 bg-white rounded-xl shadow-lg">
+        <!-- Encabezado con logo y título -->
+        <div class="text-center mb-8">
+          <!-- El logo de la lavandería con el nuevo ícono de la remera -->
+          <div class="inline-flex items-center justify-center rounded-full p-3 mb-2" style="background-color: #5b21b6;">
+            <img src="/shirt-icon.svg" alt="Ícono de remera de Lavandería" class="h-10 w-10 text-white" />
+          </div>
+          <h1 class="text-4xl font-bold text-gray-800" style="color: #5b21b6;">Lavandería Beatriz</h1>
+          <p class="text-lg text-gray-500">Sistema de Gestión de Clientes</p>
+        </div>
+
+        <!-- Contenedor para las tarjetas de estadísticas -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Panel de Total Clientes -->
+          <div class="p-6 rounded-2xl shadow-xl flex flex-col justify-between" style="background: linear-gradient(to right, #4c28bc, #7b58e7);">
+            <div>
+              <div class="flex items-center text-white mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h-4v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2h4" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12a4 4 0 100-8 4 4 0 000 8zM5 20h14" />
+                </svg>
+                <h3 class="text-xl font-semibold">Total Clientes</h3>
+              </div>
+              <p class="text-sm text-gray-200">Clientes registrados</p>
+            </div>
+            <div class="mt-4 flex justify-between items-center text-white">
+              <span class="text-4xl font-bold">128</span> <!-- Dato simulado -->
+              <span class="flex items-center text-gray-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Activos
+              </span>
+            </div>
+          </div>
+
+          <!-- Panel de Clientes Premium -->
+          <div class="p-6 rounded-2xl shadow-xl flex flex-col justify-between" style="background: linear-gradient(to right, #f59e0b, #fcd34d);">
+            <div>
+              <div class="flex items-center text-white mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7 4 7-4v-4l-7-4-7 4v4z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l-7-4v-4l7-4 7 4v4l-7 4z" />
+                </svg>
+                <h3 class="text-xl font-semibold">Clientes Premium</h3>
+              </div>
+              <p class="text-sm text-gray-800">Membresía Premium</p>
+            </div>
+            <div class="mt-4 flex justify-between items-center text-white">
+              <span class="text-4xl font-bold">15</span> <!-- Dato simulado -->
+              <span class="flex items-center text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.503 4.631a1 1 0 00.95.69h4.873c.969 0 1.371 1.24.588 1.81l-3.945 2.873a1 1 0 00-.364 1.118l1.503 4.631c.3.921-.755 1.688-1.54 1.118l-3.945-2.873a1 1 0 00-1.176 0l-3.945 2.873c-.785.57-1.84-.197-1.54-1.118l1.503-4.631a1 1 0 00-.364-1.118L2.52 9.558c-.783-.57-.381-1.81.588-1.81h4.873a1 1 0 00.95-.69l1.503-4.63z" />
+                </svg>
+                VIP
+              </span>
+            </div>
+          </div>
+
+          <!-- Panel de Clientes Corporativos -->
+          <div class="p-6 rounded-2xl shadow-xl flex flex-col justify-between" style="background: linear-gradient(to right, #10b981, #34d399);">
+            <div>
+              <div class="flex items-center text-white mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.75c-2.485 0-4.5-2.015-4.5-4.5s2.015-4.5 4.5-4.5 4.5 2.015 4.5 4.5-2.015 4.5-4.5 4.5zm0-16.5c-2.485 0-4.5-2.015-4.5-4.5s2.015-4.5 4.5-4.5 4.5 2.015 4.5 4.5-2.015 4.5-4.5 4.5z" />
+                </svg>
+                <h3 class="text-xl font-semibold">Clientes Corporativos</h3>
+              </div>
+              <p class="text-sm text-gray-200">Empresas y organizaciones</p>
+            </div>
+            <div class="mt-4 flex justify-between items-center text-white">
+              <span class="text-4xl font-bold">5</span> <!-- Dato simulado -->
+              <span class="flex items-center text-gray-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21h-2a2 2 0 01-2-2v-4a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 11V9a2 2 0 00-2-2H9a2 2 0 00-2 2v2" />
+                </svg>
+                Empresas
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Contenedor del clima -->
+      <div class="bg-blue-100 p-6 rounded-xl shadow-md flex flex-col items-center text-center max-w-sm mx-auto mb-6 relative">
         <h2 class="text-2xl font-bold text-purple-700">Clima en la ciudad de Cordoba</h2>
         <img
           :src="`https://openweathermap.org/img/wn/${clima?.icon}@4x.png`"
@@ -68,14 +173,28 @@
         <p class="text-sm text-gray-500 mt-2">{{ ciudad }} - {{ fechaActual }}</p>
       </div>
     </main>
+
+    <!--
+      El componente del modal se renderiza aquí, fuera del <main>.
+      El modal tiene estilos para posicionarse sobre todo el dashboard
+      y oscurecer el fondo, manteniendo el sidebar y el fondo visibles.
+    -->
+    <ServiceConfigView v-if="showServiceConfigModal" @close="showServiceConfigModal = false" />
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import { ref, onMounted, watch, nextTick } from 'vue';
 import axios from 'axios';
-import * as anime from 'animejs'; // Mantener esta importación
+import * as anime from 'animejs';
 
+import ServiceConfigView from '@/views/config/ServiceConfigView.vue';
+
+// Se mantiene el router para otras funciones si las hubiera, pero no se usa en logout
+const router = useRouter(); 
+
+const showServiceConfigModal = ref(false);
 const clima = ref(null);
 const mostrarNieve = ref(false);
 const mostrarSol = ref(false);
@@ -83,10 +202,9 @@ const mostrarNubes = ref(false);
 const ciudad = 'Córdoba,AR';
 const apiKey = '63625d5981558769a6d3ad2c3676dc2a';
 
-// Función para animar el sol
 const animateSun = () => {
   const sunElement = document.getElementById('sun-animation');
-  if (sunElement && anime.default) { // ¡Añadir verificación de anime.default!
+  if (sunElement && anime.default) {
     anime.default({
       targets: sunElement,
       rotate: '360deg',
@@ -98,23 +216,20 @@ const animateSun = () => {
   }
 };
 
-// Función para animar las nubes
 const animateCloud = () => {
     const cloudElement = document.getElementById('cloud-animation');
-    const container = document.querySelector('.max-w-sm'); // Tu tarjeta del clima
+    const container = document.querySelector('.max-w-sm');
 
     if (cloudElement && container && anime.default) {
-        const containerWidth = container.offsetWidth; // Ancho de la tarjeta
+        const containerWidth = container.offsetWidth;
 
         anime.default({
             targets: cloudElement,
-            // Empieza MUY a la izquierda, termina MUY a la derecha.
-            // Esto es relativo a la posición actual del elemento (que ahora será el centro de la tarjeta si no tiene 'left' en CSS)
-            translateX: [-500, containerWidth + 500], // Mueve desde 500px antes del borde izq. hasta 500px después del borde derecho
-            duration: 5000, // Duración más rápida para ver el movimiento de inmediato
+            translateX: [-500, containerWidth + 500],
+            duration: 5000,
             easing: 'linear',
             loop: true,
-            direction: 'alternate' // Para que vaya y venga
+            direction: 'alternate'
         });
     }
 };
@@ -138,18 +253,11 @@ onMounted(async () => {
       sensacion_termica: Math.round(datos.main.feels_like),
       descripcion: datos.weather[0].description,
       icon: datos.weather[0].icon,
-      viento: Math.round(datos.wind.speed * 3.6) // m/s a km/h
+      viento: Math.round(datos.wind.speed * 3.6)
     };
 
-    // Forzar clima de nieve (solo para pruebas) 
-    //clima.value.icon = '13d'
-    //clima.value.descripcion = 'nieve ligera'
-
-    // Fuerza nubes para probar
-    clima.value.icon = '04d'; // nubes densas de día
+    clima.value.icon = '04d';
     clima.value.descripcion = 'nublado con nubes densas';
-
-
 
   } catch (err) {
     console.error('Error al obtener el clima:', err);
@@ -170,30 +278,31 @@ watch(clima, async (newClima) => {
 
   const icon = newClima.icon;
 
-  // Mostrar nieve si corresponde
   mostrarNieve.value = ['13d', '13n'].includes(icon);
 
-  // Mostrar y animar sol si está despejado de día
   if (icon === '01d') {
     mostrarSol.value = true;
     await nextTick();
     setTimeout(() => animateSun(), 50);
   }
 
-  // Mostrar y animar nubes si hay nubosidad
-  // ... dentro del watch
-// ... dentro del watch
   if (['02d', '02n', '03d', '04d', '03n', '04n'].includes(icon)) {
     mostrarNubes.value = true;
     await nextTick();
     setTimeout(() => {
     const cloudElement = document.getElementById('cloud-animation');
-  if (cloudElement) animateCloud(); // Llama a animateCloud si el elemento existe
-    }, 300); // Aumentamos a 300ms
-}
+    if (cloudElement) animateCloud();
+    }, 300);
+  }
 }, { immediate: true });
 
-
+// 🟢 FUNCIÓN `logout` MODIFICADA para redirigir a la URL raíz
+const logout = () => {
+  // Limpia el token de autenticación
+  localStorage.removeItem('authToken');
+  // 🟢 Usa window.location.href para forzar una redirección del navegador completa a la URL raíz
+  window.location.href = '/'; 
+};
 </script>
 
 <style scoped>
